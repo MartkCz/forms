@@ -277,6 +277,8 @@ class Rules implements \IteratorAggregate
 		if (is_string($rule->validator) && ord($rule->validator[0]) > 127) {
 			$rule->isNegative = TRUE;
 			$rule->validator = ~$rule->validator;
+			$name = strncmp($rule->validator, ':', 1) ? $rule->validator : 'Form:' . strtoupper($rule->validator);
+			trigger_error("Negative validation rules such as ~$name are deprecated.", E_USER_DEPRECATED);
 		}
 
 		if (!is_callable($this->getCallback($rule))) {
